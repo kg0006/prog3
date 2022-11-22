@@ -1,4 +1,6 @@
-class LivingCreature{
+
+
+module.exports  = class LivingCreature{
 
     getNewCordinates(){
         this.directions = [
