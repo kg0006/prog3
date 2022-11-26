@@ -2,11 +2,8 @@
 
 var side = 20;
 var socket  =   io();
-
- 
-
 function setup() {
-
+console.log("inside setip")
     // function matrixGenerator(matrixSize, grassCount, grassEaterCount, hunterCount, predatorCount,livingcreatureCount) {
     //     for (let i = 0; i < matrixSize; i++) {
     //     matrix[i] = []
@@ -44,13 +41,13 @@ function setup() {
    createCanvas(50 * side, 50 * side);
    background('#acacac');
 }
-socket.on("send massege",draww)
+
 
   
 
 
 function draww(matrix) {
-console.log(matrix)
+//console.log(matrix)
     for (var y = 0; y < matrix.length; y++) {
         for (var x = 0; x < matrix[y].length; x++) {
  
@@ -102,3 +99,16 @@ console.log(matrix)
 
  }
  
+ socket.on("send massege",draww)
+
+
+ const btn = document.querySelector('button');
+
+function random(number) {
+  return Math.floor(Math.random() * (number+1));
+}
+
+btn.addEventListener('click', () => {
+  const rndCol = `rgb(${random(255)}, ${random(255)}, ${random(255)})`;
+  document.body.style.backgroundColor = rndCol;
+});

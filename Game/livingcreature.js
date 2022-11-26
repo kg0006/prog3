@@ -2,6 +2,10 @@
 
 module.exports  = class LivingCreature{
 
+ random(found) {
+            return found[Math.floor(Math.random()*found.length)]
+            }
+
     getNewCordinates(){
         this.directions = [
             [this.x - 1, this.y - 1],
@@ -33,7 +37,7 @@ module.exports  = class LivingCreature{
     move() {
         this.energy--
         var emptyCells = this.chooseCell(0);
-        var newCell = random(emptyCells);
+        var newCell = this.random(emptyCells);
         if(newCell && this.energy >= 0) {
             var newX = newCell[0];
             var newY = newCell[1];
@@ -57,6 +61,7 @@ module.exports  = class LivingCreature{
             }
         }
 
-     
 
+
+       
 }

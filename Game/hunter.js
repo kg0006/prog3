@@ -8,13 +8,12 @@ module.exports  = class Hunter extends LivingCreature{
         this.directions = [];
         this.energy = 200;
     }
-
-    
+  
 
     eat() {
         this.energy++
         var emptyCells = this.chooseCell(1);
-        var newCell = random(emptyCells);
+        var newCell = super.random(emptyCells);
         if(newCell) {
             
             var newX = newCell[0];

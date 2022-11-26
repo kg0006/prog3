@@ -10,20 +10,20 @@ res.redirect('index.html');
 });
 server.listen(3000);
 
-var matrix = [];
-var grasses = [];
-var grassEater = [];
-var hunterArr = [];
-var predator = [];
-var livingcreature = [];
+matrix = [];
+grasses = [];
+grassEater = [];
+hunterArr = [];
+predator = [];
+livingcreature = [];
 
 
-const LivingCreature = require('./livingcreature');
-const Grass = require('./grass');
-const GrassEater = require('./grassEater');
-// const Predator = require('./predator');
-const Hunter = require('./hunter');
-const Predator = require('./predator');
+ LivingCreature = require('./livingcreature');
+ Grass = require('./grass');
+ GrassEater = require('./grassEater');
+ Predator = require('./predator');
+Hunter = require('./hunter');
+ Predator = require('./predator');
 
 
 
@@ -60,54 +60,54 @@ function createObject(){
 
 
 
-io.on('connection', function (socket) {
-console.log("connected")
-createObject();
-  
-  });
 
 
-let Random = Math.floor(Math.random() * 50);
+function matrixGenerator(matLength, gr, grEa, dog, hunt) {
+  let matrix = [];
+  
+  for (let i = 0; i < matLength; i++) {
+  matrix.push([])
+  for (let j = 0; j < matLength; j++) {
+  matrix[i].push(0)
+  }
+  }
+  for (let i = 0; i < gr; i++) {
+  let x = Math.floor(Math.random() * matLength);
+  let y = Math.floor(Math.random() * matLength);
+  if (matrix[y][x] == 0) {
+  matrix[x][y] = 1;
+  }
+  }
+  for (let i = 0; i < grEa; i++) {
+  let x = Math.floor(Math.random() * matLength);
+  let y = Math.floor(Math.random() * matLength);
+  if (matrix[y][x] == 0) {
+  matrix[x][y] = 2;
+  }
+  }
+  for (let i = 0; i < dog; i++) {
+  let x = Math.floor(Math.random() * matLength);
+  let y = Math.floor(Math.random() * matLength);
+  if (matrix[y][x] == 0) {
+  matrix[x][y] = 3;
+  }
+  }
+  
+  for (let i = 0; i < hunt; i++) {
+  let x = Math.floor(Math.random() * matLength);
+  let y = Math.floor(Math.random() * matLength);
+  if (matrix[y][x] == 0) {
+  matrix[x][y] = 4;
+  }
+  }
 
-function matrixGenerator(matrixSize, grassCount, grassEaterCount, hunterCount, predatorCount,livingcreatureCount) {
-  for (let i = 0; i < matrixSize; i++) {
-  matrix[i] = []
-  for (let o = 0; o < matrixSize; o++) {
-  matrix[i][o] = 0;
+  return matrix;
   }
-  }
-  for (let i = 0; i < grassCount; i++) {
-  let x = Random;
-  let y = Random;
-  matrix[y][x] = 1;
-  }
-  for (let i = 0; i < grassEaterCount; i++) {
-  let x = Random;
-  let y = Random;
-  matrix[y][x] = 2;
-  }
-  for (let i = 0; i < hunterCount; i++) {
-  let x = Random;
-  let y = Random;
-  matrix[y][x] = 3;
-  }
-  for (let i = 0; i < predatorCount; i++) {
-      let x = Random;
-      let y = Random;
-      matrix[y][x] = 4;
-  
-  }
-  // for (let i = 0; i < livingcreatureCount; i++) {
-  //     let x = Random;
-  //     let y = Random;
-  //     matrix[y][x] = 5;
-  
-  // }
-}
-  matrixGenerator(50, 50, 20, 20, 20);
-  io.sockets.emit("send massege", matrix)
+  matrix = matrixGenerator(50, 50, 20, 20, 20);
+
 
  function game() {
+   //console.log(matrix)
 for (let i in grasses){
   grasses[i].mul();
 }
@@ -127,3 +127,10 @@ io.sockets.emit("send massege", matrix)
 
  setInterval( game , 1000)
   
+ io.on('connection', function (socket) {
+  console.log("connected")
+  createObject();
+    
+    });
+    
+     

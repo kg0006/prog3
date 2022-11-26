@@ -38,7 +38,7 @@ module.exports  = class Predator extends LivingCreature {
     }
     mul() {
     let found = this.chooseCell(0);
-    let exact = random(found)
+    let exact = super.random(found)
     
     if (exact && this.energy > 8) {
     let x = exact[0];
@@ -55,8 +55,8 @@ module.exports  = class Predator extends LivingCreature {
     let found1 = this.chooseCell(1);
     let found2 = this.chooseCell(2);
     let found = [found1, found2]
-    let randomfound = random(found);
-    let exact = random(randomfound)
+    let randomfound = super.random(found);
+    let exact = super.random(randomfound);
     if (exact) {
     this.energy += 5;
     let x = exact[0];
@@ -96,7 +96,7 @@ module.exports  = class Predator extends LivingCreature {
     }
     move() {
     let found = this.chooseCell(0);
-    let exact = random(found)
+    let exact = super.random(found)
     
     if (exact) {
     let x = exact[0];

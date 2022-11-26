@@ -11,7 +11,7 @@ module.exports  = class GrassEater extends LivingCreature{
 
     mul () {
         var emptyCells = this.chooseCell(0);
-        var newCell = random(emptyCells);
+        var newCell = super.random(emptyCells);
  
         if(newCell){
             var newX = newCell[0];
@@ -26,11 +26,10 @@ module.exports  = class GrassEater extends LivingCreature{
         }
     }
 
-    
 
     eat() {
         var emptyCells = this.chooseCell(1);
-        var newCell = random(emptyCells);
+        var newCell = super.random(emptyCells);
         if(newCell) {
             this.energy++
             var newX = newCell[0];
