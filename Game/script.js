@@ -37,7 +37,6 @@ console.log("inside setip")
 
 
     
-   frameRate(10);
    createCanvas(50 * side, 50 * side);
    background('#acacac');
 }
@@ -104,11 +103,11 @@ function draww(matrix) {
 
  const btn = document.querySelector('button');
 
-function random(number) {
+function randomColor(number) {
   return Math.floor(Math.random() * (number+1));
 }
 
 btn.addEventListener('click', () => {
-  const rndCol = `rgb(${random(255)}, ${random(255)}, ${random(255)})`;
+  const rndCol = `rgb(${randomColor(255)}, ${randomColor(255)}, ${randomColor(255)})`;
   document.body.style.backgroundColor = rndCol;
 });
