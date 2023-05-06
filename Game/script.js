@@ -3,7 +3,7 @@
 var side = 20;
 var socket  =   io();
 function setup() {
-console.log("inside setip")
+// console.log("inside setip")
     // function matrixGenerator(matrixSize, grassCount, grassEaterCount, hunterCount, predatorCount,livingcreatureCount) {
     //     for (let i = 0; i < matrixSize; i++) {
     //     matrix[i] = []
@@ -42,11 +42,28 @@ console.log("inside setip")
 }
 
 
-  
+  function state (data){
+      const forState =  document.getElementById("state")
+      const forState1 =  document.getElementById("state1")
+
+      const forState2 =  document.getElementById("state2")
+
+      const forState3 =  document.getElementById("state3")
+
+      forState.innerHTML = "GrassCount:" + data.grassCount
+
+      forState1.innerHTML = "grassEaterCount :" + data.grassEaterCount 
+
+      forState2.innerHTML = "hunterCount :" + data.hunterCount 
+
+      forState3.innerHTML = "predatorCount :" + data.predatorCount 
+    // console.log(data);
+  }
+
 
 
 function draww(matrix) {
-//console.log(matrix)
+// console.log(matrix)
     for (var y = 0; y < matrix.length; y++) {
         for (var x = 0; x < matrix[y].length; x++) {
  
@@ -99,7 +116,7 @@ function draww(matrix) {
  }
  
  socket.on("send massege",draww)
-
+    socket.on("creatures count", state);
 
  const btn = document.querySelector('button');
 

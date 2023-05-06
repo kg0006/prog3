@@ -56,13 +56,14 @@ function createObject() {
 
     }
   }
+
 }
 
 
 
 
 
-function matrixGenerator(matLength, gr, grEa, dog, hunt) {
+function matrixGenerator(matLength, gr, grEa, dog, hunt, living) {
   let matrix = [];
 
   for (let i = 0; i < matLength; i++) {
@@ -100,6 +101,13 @@ function matrixGenerator(matLength, gr, grEa, dog, hunt) {
       matrix[x][y] = 4;
     }
   }
+  for (let i = 0; i < living; i++) {
+    let x = Math.floor(Math.random() * matLength);
+    let y = Math.floor(Math.random() * matLength);
+    if (matrix[y][x] == 0) {
+      matrix[x][y] = 5;
+    }
+  }
 
   return matrix;
 }
@@ -122,8 +130,19 @@ function game() {
 
     predator[i].eat();
   }
+  data = {
+    grassCount : grasses.length,
+    grassEaterCount : grassEater.length,
+    hunterCount : hunterArr.length,
+    predatorCount : predator.length,
+    livingcreaturecount : livingcreature.length
+  }
+  io.sockets.emit("creatures count", data);
   io.sockets.emit("send massege", matrix)
 }
+
+
+
 
 setInterval(game, 500)
 
@@ -131,5 +150,6 @@ io.on('connection', function (socket) {
   console.log("connected")
   createObject();
 
+  
 });
 
