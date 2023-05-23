@@ -1,20 +1,36 @@
 
 
-module.exports  = class LivingCreature{
-
- random(found) {
-            return found[Math.floor(Math.random()*found.length)]
-            }
-
-    getNewCordinates(){
+module.exports = class LivingCreature {
+    constructor(x, y){
+        this.x = x; 
+        this.y = y; 
+        this.multiply = 0;
         this.directions = [
-            [this.x - 1, this.y - 1],
+            [this.x - 1, this.y - 1], 
             [this.x    , this.y - 1],
             [this.x + 1, this.y - 1],
             [this.x - 1, this.y    ],
             [this.x + 1, this.y    ],
             [this.x - 1, this.y + 1],
             [this.x    , this.y + 1],
+            [this.x + 1, this.y + 1]
+        ];
+    }
+
+    
+    random(found) {
+        return found[Math.floor(Math.random() * found.length)]
+    }
+
+    getNewCordinates() {
+        this.directions = [
+            [this.x - 1, this.y - 1],
+            [this.x, this.y - 1],
+            [this.x + 1, this.y - 1],
+            [this.x - 1, this.y],
+            [this.x + 1, this.y],
+            [this.x - 1, this.y + 1],
+            [this.x, this.y + 1],
             [this.x + 1, this.y + 1]
         ];
     }
@@ -34,34 +50,20 @@ module.exports  = class LivingCreature{
         return found;
     }
 
-    move() {
-        this.energy--
-        var emptyCells = this.chooseCell(0);
-        var newCell = this.random(emptyCells);
-        if(newCell && this.energy >= 0) {
-            var newX = newCell[0];
-            var newY = newCell[1];
-            matrix[newY][newX] = matrix[this.y][this.x]
-            matrix[this.y][this.x] = 0;
-            this.x = newX
-            this.y = newY
-        } else {
-            this.die()
-        }
-    }
-
-
-        die() {
-            matrix[this.y][this.x] = 0;
-            for (var i in grassEater) {
-                if (this.x == grassEater[i].x && this.y == grassEater[i].y) {
-                    grassEater.splice(i, 1);
-                    break;
-                }
-            }
-        }
 
 
 
-       
+    // die() {
+    //     matrix[this.y][this.x] = 0;
+    //     for (var i in grassEater) {
+    //         if (this.x == grassEater[i].x && this.y == grassEater[i].y) {
+    //             grassEater.splice(i, 1);
+    //             break;
+    //         }
+    //     }
+    // }
+
+
+
+
 }

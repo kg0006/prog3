@@ -65,19 +65,19 @@ let spr = document.getElementById("spring")
 let colors = "green"
 function changeSeason() {
     colors = "green"
-
+    socket.emit("signal","summer")
 }
 function changeSeason1() {
     colors = "orange"
-
+    socket.emit("signal","autumn")
 }
 function changeSeason2() {
     colors = "white"
-
+    socket.emit("signal","winter")
 }
 function changeSeason3() {
     colors = "pink"
-
+    socket.emit("signal","spring")
 }
 
 sum.addEventListener("click",changeSeason)
@@ -110,10 +110,7 @@ function draww(matrix) {
                 fill("blue");
                 rect(x * side, y * side, side, side);
             }
-            else if (matrix[y][x] == 5) {
-                fill("purple");
-                rect(x * side, y * side, side, side);
-            }
+          
         }
     }
 

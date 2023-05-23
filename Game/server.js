@@ -2,7 +2,7 @@ var express = require('express');
 var app = express();
 var server = require('http').Server(app);
 var io = require('socket.io')(server);
-
+var fs = require("fs")
 
 app.use(express.static("."));
 app.get('/', function (req, res) {
@@ -15,15 +15,14 @@ grasses = [];
 grassEater = [];
 hunterArr = [];
 predator = [];
-livingcreature = [];
 
 
-LivingCreature = require('./livingcreature');
-Grass = require('./grass');
-GrassEater = require('./grassEater');
-Predator = require('./predator');
-Hunter = require('./hunter');
-Predator = require('./predator');
+
+let Grass = require('./grass');
+let GrassEater = require('./grassEater');
+let Predator = require('./predator');
+let Hunter = require('./hunter');
+
 
 
 
@@ -37,22 +36,19 @@ function createObject() {
         let grassObject = new Grass(x, y);
         grasses.push(grassObject)
       }
-      if (matrix[y][x] == 2) {
+      else if (matrix[y][x] == 2) {
         let grassEaterObject = new GrassEater(x, y);
         grassEater.push(grassEaterObject)
       }
-      if (matrix[y][x] == 3) {
+      else if (matrix[y][x] == 3) {
         let hunterArrObject = new Hunter(x, y);
         hunterArr.push(hunterArrObject)
       }
-      if (matrix[y][x] == 4) {
+      else if (matrix[y][x] == 4) {
         let predatorObject = new Predator(x, y);
         predator.push(predatorObject)
       }
-      if (matrix[y][x] == 5) {
-        let livingcreatureObject = new LivingCreature(x, y);
-        livingcreature.push(livingcreatureObject)
-      }
+    
 
     }
   }
@@ -63,7 +59,7 @@ function createObject() {
 
 
 
-function matrixGenerator(matLength, gr, grEa, dog, hunt, living) {
+function matrixGenerator(matLength, gr, grEa, dog, hunt) {
   let matrix = [];
 
   for (let i = 0; i < matLength; i++) {
@@ -76,21 +72,21 @@ function matrixGenerator(matLength, gr, grEa, dog, hunt, living) {
     let x = Math.floor(Math.random() * matLength);
     let y = Math.floor(Math.random() * matLength);
     if (matrix[y][x] == 0) {
-      matrix[x][y] = 1;
+      matrix[y][x] = 1;
     }
   }
   for (let i = 0; i < grEa; i++) {
     let x = Math.floor(Math.random() * matLength);
     let y = Math.floor(Math.random() * matLength);
     if (matrix[y][x] == 0) {
-      matrix[x][y] = 2;
+      matrix[y][x] = 2;
     }
   }
   for (let i = 0; i < dog; i++) {
     let x = Math.floor(Math.random() * matLength);
     let y = Math.floor(Math.random() * matLength);
     if (matrix[y][x] == 0) {
-      matrix[x][y] = 3;
+      matrix[y][x] = 3;
     }
   }
 
@@ -98,58 +94,72 @@ function matrixGenerator(matLength, gr, grEa, dog, hunt, living) {
     let x = Math.floor(Math.random() * matLength);
     let y = Math.floor(Math.random() * matLength);
     if (matrix[y][x] == 0) {
-      matrix[x][y] = 4;
+      matrix[y][x] = 4;
     }
   }
-  for (let i = 0; i < living; i++) {
-    let x = Math.floor(Math.random() * matLength);
-    let y = Math.floor(Math.random() * matLength);
-    if (matrix[y][x] == 0) {
-      matrix[x][y] = 5;
-    }
-  }
-
+  
   return matrix;
 }
 matrix = matrixGenerator(50, 50, 20, 20, 20);
-
-
+let x = 2
+function setSpeed(data) {
+  if (data === "summer") {
+    x = 3
+  }
+  else if (data === "autumn") {
+    x = 4
+  }
+  else if (data === "winter") {
+    x = 6
+  }
+  else if (data === "spring") {
+    x = 1
+  }
+}
 function game() {
   //console.log(matrix)
   for (let i in grasses) {
-    grasses[i].mul();
+    grasses[i].mul(x);
   }
   for (let i in grassEater) {
     grassEater[i].eat();
   }
   for (let i in hunterArr) {
 
-    hunterArr[i].move();
+    hunterArr[i].eat();
   }
   for (let i in predator) {
 
     predator[i].eat();
   }
   data = {
-    grassCount : grasses.length,
-    grassEaterCount : grassEater.length,
-    hunterCount : hunterArr.length,
-    predatorCount : predator.length,
-    livingcreaturecount : livingcreature.length
+    grassCount: grasses.length,
+    grassEaterCount: grassEater.length,
+    hunterCount: hunterArr.length,
+    predatorCount: predator.length,
   }
-  io.sockets.emit("creatures count", data);
-  io.sockets.emit("send massege", matrix)
+  
+  fs.writeFileSync("data.json", JSON.stringify(data, undefined, 2));
+
+  var text = fs.readFileSync("data.json").toString();
+
+  io.emit("creatures count", JSON.parse(text));
+  io.emit("send massege", matrix)
 }
 
+createObject();
 
 
 
 setInterval(game, 500)
 
 io.on('connection', function (socket) {
+  socket.on("signal", function (data) {
+    setSpeed(data)
+  })
   console.log("connected")
-  createObject();
 
-  
+
+
 });
 
