@@ -2,5 +2,6 @@
   "grassCount": 0,
   "grassEaterCount": 0,
   "hunterCount": 0,
-  "predatorCount": 0
+  "predatorCount": 0,
+  "zombieCount": 0
 }

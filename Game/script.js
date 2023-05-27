@@ -48,6 +48,8 @@ function state(data) {
 
     const forState3 = document.getElementById("state3")
 
+    const forState4 = document.getElementById("state4")
+
     forState.innerHTML = "GrassCount:" + data.grassCount
 
     forState1.innerHTML = "grassEaterCount :" + data.grassEaterCount
@@ -55,6 +57,8 @@ function state(data) {
     forState2.innerHTML = "hunterCount :" + data.hunterCount
 
     forState3.innerHTML = "predatorCount :" + data.predatorCount
+
+    forState4.innerHTML = "zombieCount :" + data.zombieCount
     // console.log(data);
 }
 let sum = document.getElementById("summer")
@@ -108,6 +112,10 @@ function draww(matrix) {
             }
             else if (matrix[y][x] == 4) {
                 fill("blue");
+                rect(x * side, y * side, side, side);  
+            }
+            else if (matrix[y][x] == 5) {
+                fill("purple");
                 rect(x * side, y * side, side, side);
             }
           

@@ -15,6 +15,7 @@ grasses = [];
 grassEater = [];
 hunterArr = [];
 predator = [];
+zombieArr = [];
 
 
 
@@ -22,7 +23,7 @@ let Grass = require('./grass');
 let GrassEater = require('./grassEater');
 let Predator = require('./predator');
 let Hunter = require('./hunter');
-
+let Zombie = require("./zombie")
 
 
 
@@ -48,6 +49,10 @@ function createObject() {
         let predatorObject = new Predator(x, y);
         predator.push(predatorObject)
       }
+      else if (matrix[y][x] == 5) {
+        let zombieObject = new Zombie(x, y);
+        zombieArr.push(zombieObject)
+      }
     
 
     }
@@ -59,7 +64,7 @@ function createObject() {
 
 
 
-function matrixGenerator(matLength, gr, grEa, dog, hunt) {
+function matrixGenerator(matLength, gr, grEa, dog, hunt, zomb) {
   let matrix = [];
 
   for (let i = 0; i < matLength; i++) {
@@ -97,10 +102,17 @@ function matrixGenerator(matLength, gr, grEa, dog, hunt) {
       matrix[y][x] = 4;
     }
   }
+  for (let i = 0; i < zomb; i++) {
+    let x = Math.floor(Math.random() * matLength);
+    let y = Math.floor(Math.random() * matLength);
+    if (matrix[y][x] == 0) {
+      matrix[y][x] = 5;
+    }
+  }
   
   return matrix;
 }
-matrix = matrixGenerator(50, 50, 20, 20, 20);
+matrix = matrixGenerator(50, 50, 20, 20, 40 ,100 );
 let x = 2
 function setSpeed(data) {
   if (data === "summer") {
@@ -132,11 +144,20 @@ function game() {
 
     predator[i].eat();
   }
+  for (let i in hunterArr) {
+
+    hunterArr[i].move();
+  }
+  for (let i in zombieArr) {
+
+    zombieArr[i].move();
+  }
   data = {
     grassCount: grasses.length,
     grassEaterCount: grassEater.length,
     hunterCount: hunterArr.length,
     predatorCount: predator.length,
+    zombieCount: zombieArr.length
   }
   
   fs.writeFileSync("data.json", JSON.stringify(data, undefined, 2));
