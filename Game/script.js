@@ -146,13 +146,10 @@ function draww(matrix) {
 socket.on("send massege", draww)
 socket.on("creatures count", state);
 
-const btn = document.querySelector('button');
+const btn = document.getElementById('kill');
 
-function randomColor(number) {
-    return Math.floor(Math.random() * (number + 1));
-}
+
 
 btn.addEventListener('click', () => {
-    const rndCol = `rgb(${randomColor(255)}, ${randomColor(255)}, ${randomColor(255)})`;
-    document.body.style.backgroundColor = rndCol;
+    socket.emit("kill", true)
 });

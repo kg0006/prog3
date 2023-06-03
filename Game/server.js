@@ -170,6 +170,25 @@ function game() {
 
 createObject();
 
+function killZombie (data){
+  console.log(data);
+  
+  for (var y = 0; y < matrix.length; y++) {
+    for (var x = 0; x < matrix[y].length; x++) {
+
+      if (matrix[y][x] == 5) {
+        matrix[y][x] = 0
+        for(i in zombieArr){
+        zombieArr.splice(i, 1);
+        break
+        }
+      }
+    
+
+    }
+  }
+}
+
 
 
 setInterval(game, 500)
@@ -180,7 +199,7 @@ io.on('connection', function (socket) {
   })
   console.log("connected")
 
-
+  socket.on("kill",killZombie)
 
 });
 
